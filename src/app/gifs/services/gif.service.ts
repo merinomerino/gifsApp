@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Gif, SearchGifsResponse } from '../intercafe/gif.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -7,7 +8,7 @@ import { Injectable } from '@angular/core';
 export class GifsService {
   private _historial:string[]=[];
   private apikey :string = 'ynXTYR5wsA4KGybm5ZXyAJshxuVk5Eu1';
-  public resultados : any [] = [];
+  public resultados : Gif [] = [];
 
   get historial(){
     return [...this._historial];
@@ -28,8 +29,8 @@ export class GifsService {
       //       })
       //     })
 
-      this.http.get(`https://api.giphy.com/v1/gifs/search?api_key=ynXTYR5wsA4KGybm5ZXyAJshxuVk5Eu1&q=${ query }&limit=10`)
-          .subscribe((resp : any) => {
+      this.http.get<SearchGifsResponse>(`https://api.giphy.com/v1/gifs/search?api_key=ynXTYR5wsA4KGybm5ZXyAJshxuVk5Eu1&q=${ query }&limit=10`)
+          .subscribe(resp => {
             console.log(resp.data)
             this.resultados = resp.data;
           })
